@@ -1,0 +1,201 @@
+{
+	"id": "4c89b3be-6158-4418-8374-674d52606bdb",
+	"values": [
+		{
+			"key": "tokenAdmin",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGQxOWE3OWU1ODI2NzM5MGNjMTE3OTIiLCJ1c2VySWQiOiI2OGQxOWE3OWU1ODI2NzM5MGNjMTE3OTIiLCJuYW1lIjoiUWEtQ29kZXJzLVNZU0FETUlOIiwibWFpbCI6InN5c2FkbWluQHFhY29kZXJzLmNvbSIsImFjY2Vzc1Byb2ZpbGUiOiJTWVNBRE1JTiIsImlhdCI6MTc2MTA5MTQ4MSwiZXhwIjoxNzYxMTc3ODgxfQ.Djz47Wi48ll35DMuWdhsNOutdkZ91cd0Aq13Mh2JrOI",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "responseMessage",
+			"value": "Olá Qa-Coders-SYSADMIN, autenticação autorizada com sucesso!",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://api-blacklist.qacoders.dev.br/api/",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "password",
+			"value": "1234@Test",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "mail",
+			"value": "fabrioborges@test.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "fullName",
+			"value": "Savio Castro",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "cpf",
+			"value": 17651656192,
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "confirmPassword",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "accessProfile",
+			"value": "ADMIN",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "userId",
+			"value": "68f030c001b4c8756f5d0ef8",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "status",
+			"value": "false",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "corporateName",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "registerCompany",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "matriz",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "responsibleContact",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "telephone",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "serviceDescription",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "zipCode",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "city",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "state",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "district",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "street",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "number",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "complement",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "country",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "companyId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "zipcode",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "authToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OGQ0MWIxMjQ4N2JiMWZjMTU1ZDgxYzIiLCJ1c2VySWQiOiI2OGQ0MWIxMjQ4N2JiMWZjMTU1ZDgxYzIiLCJuYW1lIjoiUWEtQ29kZXJzLVNZU0FETUlOIiwibWFpbCI6InN5c2FkbWluQHFhY29kZXJzLmNvbSIsImFjY2Vzc1Byb2ZpbGUiOiJTWVNBRE1JTiIsImlhdCI6MTc2MTA4Njc4NCwiZXhwIjoxNzYxMTczMTg0fQ.e60yha5OyYZu0AGac_bwehW2TioJSRMp7Wa-j_m-cTw",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "passCreate",
+			"value": "jqhmie1@n",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "mailAdmin",
+			"value": "sysadmin@qacoders.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "passwordAdmin",
+			"value": "1234@Test",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "userCount",
+			"value": 401,
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2025-10-22T00:22:31.114Z",
+	"_postman_exported_using": "Postman/11.68.0"
+}

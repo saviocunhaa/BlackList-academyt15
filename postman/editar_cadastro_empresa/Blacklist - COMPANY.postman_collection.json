@@ -1,0 +1,733 @@
+{
+	"info": {
+		"_postman_id": "e8ea6382-efb1-417e-ba2a-308a81d4d7b8",
+		"name": "Blacklist - COMPANY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31428950",
+		"_collection_link": "https://test77-3313.postman.co/workspace/TQA15---Blacklist-~67ae16c6-2e87-4559-90ab-4cd97dfe7365/collection/31428950-e8ea6382-efb1-417e-ba2a-308a81d4d7b8?action=share&source=collection_link&creator=31428950"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "user_login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"const response = pm.response.json(); \r",
+									"pm.globals.set(\"tokenAdmin\", response.token); \r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"}); \r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify ID\", () => {\r",
+									"    pm.environment.set(\"userId\", response.user._id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"{{mailAdmin}}\",\r\n  \"password\": \"{{passwordAdmin}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}login",
+							"host": [
+								"{{baseUrl}}login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate_user_token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\",  () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api-blacklist.qacoders.dev.br/api/validateToken",
+							"protocol": "https",
+							"host": [
+								"api-blacklist",
+								"qacoders",
+								"dev",
+								"br"
+							],
+							"path": [
+								"api",
+								"validateToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "create_company",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// === Função para gerar nome corporativo ===\r",
+									"function generateCorporateName() {\r",
+									"    const prefixes = [\"Tech\", \"Global\", \"Prime\", \"Next\", \"Blue\", \"Green\", \"Data\", \"Smart\", \"Digital\", \"Nova\"];\r",
+									"    const middles = [\"Corp\", \"Systems\", \"Solutions\", \"Group\", \"Enterprises\", \"Networks\", \"Holdings\", \"Industries\"];\r",
+									"    const suffixes = [\"Ltd\", \"SA\", \"Inc\", \"LLC\", \"Co\", \"Brasil\", \"Tech\", \"Pro\"];\r",
+									"\r",
+									"    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];\r",
+									"    const middle = middles[Math.floor(Math.random() * middles.length)];\r",
+									"    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];\r",
+									"\r",
+									"    return `${prefix} ${middle} ${suffix}`;\r",
+									"}\r",
+									"\r",
+									"// === Função para gerar CNPJ válido ===\r",
+									"function generateCNPJ() {\r",
+									"    const n = 9;\r",
+									"    const n1 = Math.floor(Math.random() * n);\r",
+									"    const n2 = Math.floor(Math.random() * n);\r",
+									"    const n3 = Math.floor(Math.random() * n);\r",
+									"    const n4 = Math.floor(Math.random() * n);\r",
+									"    const n5 = Math.floor(Math.random() * n);\r",
+									"    const n6 = Math.floor(Math.random() * n);\r",
+									"    const n7 = Math.floor(Math.random() * n);\r",
+									"    const n8 = Math.floor(Math.random() * n);\r",
+									"    const n9 = 0;\r",
+									"    const n10 = 0;\r",
+									"    const n11 = 0;\r",
+									"    const n12 = 1;\r",
+									"\r",
+									"    let d1 = n12 * 2 + n11 * 3 + n10 * 4 + n9 * 5 + n8 * 6 + n7 * 7 + n6 * 8 + n5 * 9 + n4 * 2 + n3 * 3 + n2 * 4 + n1 * 5;\r",
+									"    d1 = 11 - (d1 % 11);\r",
+									"    if (d1 >= 10) d1 = 0;\r",
+									"\r",
+									"    let d2 = d1 * 2 + n12 * 3 + n11 * 4 + n10 * 5 + n9 * 6 + n8 * 7 + n7 * 8 + n6 * 9 + n5 * 2 + n4 * 3 + n3 * 4 + n2 * 5 + n1 * 6;\r",
+									"    d2 = 11 - (d2 % 11);\r",
+									"    if (d2 >= 10) d2 = 0;\r",
+									"\r",
+									"    const cnpj = `${n1}${n2}${n3}${n4}${n5}${n6}${n7}${n8}${n9}${n10}${n11}${n12}${d1}${d2}`;\r",
+									"    return cnpj.replace(/^(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2}).*/, \"$1$2$3$4$5\");\r",
+									"}\r",
+									"\r",
+									"// ===== Helper: número aleatório inteiro =====\r",
+									"const rint = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;\r",
+									"\r",
+									"// ===== Nome da Razão Social (matriz) =====\r",
+									"function generateCorporateName() {\r",
+									"  const prefixes = [\"Tech\", \"Global\", \"Prime\", \"Next\", \"Blue\", \"Green\", \"Data\", \"Smart\", \"Digital\", \"Nova\"];\r",
+									"  const middles  = [\"Corp\", \"Systems\", \"Solutions\", \"Group\", \"Enterprises\", \"Networks\", \"Holdings\", \"Industries\"];\r",
+									"  const suffixes = [\"Brasil\", \"Services\", \"Technology\", \"Partners\", \"Logistics\", \"Consulting\"];\r",
+									"  const p = prefixes[rint(0, prefixes.length-1)];\r",
+									"  const m = middles[rint(0, middles.length-1)];\r",
+									"  const s = suffixes[rint(0, suffixes.length-1)];\r",
+									"  return `${p} ${m} ${s}`.replace(/\\s+/g, \" \").trim();\r",
+									"}\r",
+									"function generateRazaoSocial(base) {\r",
+									"  const tipos = [\" LTDA\", \" S.A.\", \" EIRELI\"];\r",
+									"  return base + tipos[rint(0, tipos.length-1)];\r",
+									"}\r",
+									"\r",
+									"// ===== Contato responsável (nome de pessoa) =====\r",
+									"function generateResponsibleContact() {\r",
+									"  const first = [\"Ana\", \"Bruno\", \"Carla\", \"Diego\", \"Eduarda\", \"Felipe\", \"Gabriela\", \"Henrique\", \"Isabela\", \"João\", \"Larissa\", \"Marcos\", \"Natalia\", \"Otávio\", \"Paula\", \"Rafael\", \"Sabrina\", \"Thiago\", \"Vitória\", \"Yasmin\"];\r",
+									"  const last  = [\"Almeida\", \"Barbosa\", \"Cardoso\", \"Duarte\", \"Esteves\", \"Fernandes\", \"Gomes\", \"Henrique\", \"Lima\", \"Macedo\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Queiroz\", \"Rocha\", \"Silva\", \"Souza\", \"Teixeira\", \"Vieira\", \"Xavier\"];\r",
+									"  return `${first[rint(0, first.length-1)]} ${last[rint(0, last.length-1)]}`;\r",
+									"}\r",
+									"\r",
+									"// ===== Telefone BR (formato padrão) =====\r",
+									"// Ex.: \"(85) 98765-4321\"\r",
+									"function generatePhoneBR() {\r",
+									"  const ddds = [\"11\",\"21\",\"31\",\"41\",\"51\",\"61\",\"71\",\"79\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"91\",\"92\",\"95\",\"96\",\"98\",\"99\"];\r",
+									"  const ddd = ddds[rint(0, ddds.length-1)];\r",
+									"  const first = rint(90000, 99999);  // inicia com 9\r",
+									"  const last  = rint(0, 9999).toString().padStart(4, \"0\");\r",
+									"  return `${ddd}${first}${last}`;\r",
+									"}\r",
+									"\r",
+									"// ===== Descrição de serviço =====\r",
+									"function generateServiceDescription() {\r",
+									"  const pool = [\r",
+									"    \"Prestação de serviços de desenvolvimento de software e manutenção de sistemas.\",\r",
+									"    \"Consultoria em tecnologia da informação, integração de APIs e suporte técnico.\",\r",
+									"    \"Serviços de infraestrutura em nuvem, monitoramento e segurança da informação.\",\r",
+									"    \"Soluções de automação de processos, testes de qualidade (QA) e treinamento.\",\r",
+									"    \"Serviços de marketing digital, análise de dados e business intelligence.\"\r",
+									"  ];\r",
+									"  return pool[rint(0, pool.length-1)];\r",
+									"}\r",
+									"\r",
+									"// ===== Endereço BR =====\r",
+									"const citiesByState = {\r",
+									"  \"CE\": [\"Fortaleza\", \"Sobral\", \"Tianguá\", \"São Benedito\", \"Ubajara\", \"Viçosa do Ceará\", \"Ipu\", \"Guaraciaba do Norte\", \"Ibiapina\", \"Croatá\", \"Carnaubal\"],\r",
+									"  \"SP\": [\"São Paulo\", \"Campinas\", \"Santos\", \"São José dos Campos\"],\r",
+									"  \"RJ\": [\"Rio de Janeiro\", \"Niterói\"],\r",
+									"  \"MG\": [\"Belo Horizonte\", \"Uberlândia\"],\r",
+									"  \"BA\": [\"Salvador\", \"Feira de Santana\"],\r",
+									"};\r",
+									"const states = Object.keys(citiesByState);\r",
+									"\r",
+									"function generateZipCode() {\r",
+									"  // CEP válido (########)\r",
+									"  const left = rint(10000, 98999); // evita 00000\r",
+									"  const right = rint(100, 999);\r",
+									"  return `${left}${right}`;\r",
+									"}\r",
+									"function pickStateAndCity() {\r",
+									"  const uf = states[rint(0, states.length-1)];\r",
+									"  const cityList = citiesByState[uf];\r",
+									"  return { state: uf, city: cityList[rint(0, cityList.length-1)] };\r",
+									"}\r",
+									"function generateDistrict() {\r",
+									"  const pool = [\"Centro\", \"Jardim das Flores\", \"Planalto\", \"Vila Nova\", \"Alto da Serra\", \"Parque Industrial\", \"Boa Vista\", \"São José\"];\r",
+									"  return pool[rint(0, pool.length-1)];\r",
+									"}\r",
+									"function generateStreet() {\r",
+									"  const types = [\"Rua\", \"Avenida\", \"Travessa\", \"Alameda\", \"Rodovia\"];\r",
+									"  const names = [\"das Acácias\", \"Dom Pedro II\", \"Sete de Setembro\", \"Getúlio Vargas\", \"José de Alencar\", \"das Palmeiras\", \"Castelo Branco\", \"Floriano Peixoto\"];\r",
+									"  return `${types[rint(0, types.length-1)]} ${names[rint(0, names.length-1)]}`;\r",
+									"}\r",
+									"function generateNumber() {\r",
+									"  return rint(1, 4500).toString();\r",
+									"}\r",
+									"function generateComplement() {\r",
+									"  const pool = [\"\", \"Casa\", \"Fundos\", `Apto ${rint(101, 1505)}`, `Sala ${rint(1, 50)}`, `Bloco ${String.fromCharCode(rint(65, 68))}`];\r",
+									"  return pool[rint(0, pool.length-1)];\r",
+									"}\r",
+									"\r",
+									"// ===== Execução =====\r",
+									"const baseName = generateCorporateName();\r",
+									"const matriz = generateRazaoSocial(baseName);\r",
+									"const responsibleContact = generateResponsibleContact();\r",
+									"const telephone = generatePhoneBR();\r",
+									"const serviceDescription = generateServiceDescription();\r",
+									"\r",
+									"const { state, city } = pickStateAndCity();\r",
+									"const zipCode = generateZipCode();\r",
+									"const district = generateDistrict();\r",
+									"const street = generateStreet();\r",
+									"const number = generateNumber();\r",
+									"const complement = generateComplement();\r",
+									"const country = \"Brasil\";\r",
+									"\r",
+									"// ===== Salva nas variáveis do AMBIENTE (ou troque para collection/global se preferir) =====\r",
+									"pm.environment.set(\"matriz\", matriz);\r",
+									"pm.environment.set(\"responsibleContact\", responsibleContact);\r",
+									"pm.environment.set(\"telephone\", telephone);\r",
+									"pm.environment.set(\"serviceDescription\", serviceDescription);\r",
+									"\r",
+									"pm.environment.set(\"zipCode\", zipCode);\r",
+									"pm.environment.set(\"city\", city);\r",
+									"pm.environment.set(\"state\", state);\r",
+									"pm.environment.set(\"district\", district);\r",
+									"pm.environment.set(\"street\", street);\r",
+									"pm.environment.set(\"number\", number);\r",
+									"pm.environment.set(\"complement\", complement);\r",
+									"pm.environment.set(\"country\", country);\r",
+									"\r",
+									"\r",
+									"// ===== Log rápido =====\r",
+									"console.log({\r",
+									"  matriz, responsibleContact, telephone, serviceDescription,\r",
+									"  zipCode, city, state, district, street, number, complement, country\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// === Gera nome, CNPJ e e-mail ===\r",
+									"const corporateName = generateCorporateName();\r",
+									"const registerCompany = generateCNPJ();\r",
+									"const emailDomain = corporateName.toLowerCase().replace(/\\s+/g, '').replace(/[^a-z0-9]/g, '');\r",
+									"const mailCompany = `contact@${emailDomain}.com`;\r",
+									"\r",
+									"// === Salva nas variáveis do ambiente ===\r",
+									"pm.environment.set(\"corporateName\", corporateName);\r",
+									"pm.environment.set(\"registerCompany\", registerCompany);\r",
+									"pm.environment.set(\"mailCompany\", mailCompany);\r",
+									"\r",
+									"// === Exibe no console ===\r",
+									"console.log(\"Generated Corporate Name:\", corporateName);\r",
+									"console.log(\"Generated CNPJ:\", registerCompany);\r",
+									"console.log(\"Generated Company Email:\", mailCompany);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"corporateName\": \"{{corporateName}}\",\r\n  \"registerCompany\": \"{{registerCompany}}\",\r\n  \"mail\": \"{{mailCompany}}\",\r\n  \"matriz\": \"{{matriz}}\",\r\n  \"responsibleContact\": \"{{responsibleContact}}\",\r\n  \"telephone\": \"{{telephone}}\",\r\n  \"serviceDescription\": \"{{serviceDescription}}\",\r\n  \"address\": [\r\n    {\r\n      \"zipCode\": \"{{zipCode}}\",\r\n      \"city\": \"{{city}}\",\r\n      \"state\": \"{{state}}\",\r\n      \"district\": \"{{district}}\",\r\n      \"street\": \"{{street}}\",\r\n      \"number\": \"{{number}}\",\r\n      \"complement\": \"{{complement}}\",\r\n      \"country\": \"{{country}}\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/company",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Teste para validar propriedades obrigatórias em todos os objetos do array de resposta",
+									"const expectedProperties = [",
+									"    \"_id\",",
+									"    \"corporateName\",",
+									"    \"registerCompany\",",
+									"    \"responsibleContact\",",
+									"    \"mail\",",
+									"    \"telephone\",",
+									"    \"serviceDescription\",",
+									"    \"matriz\",",
+									"    \"status\",",
+									"    \"address\",",
+									"    \"audit\",",
+									"    \"__v\"",
+									"];",
+									"",
+									"let responseJson = pm.response.json();",
+									"pm.test(\"Todos os objetos possuem as propriedades obrigatórias\", function () {",
+									"    pm.expect(Array.isArray(responseJson), \"A resposta deve ser um array\").to.be.true;",
+									"    responseJson.forEach((obj, idx) => {",
+									"        expectedProperties.forEach(prop => {",
+									"            pm.expect(obj, `Objeto na posição ${idx} não possui a propriedade obrigatória '${prop}'`).to.have.property(prop);",
+									"        });",
+									"    });",
+									"});",
+									"",
+									"// Salvar o _id de um objeto aleatório na variável de ambiente companyId",
+									"if (Array.isArray(responseJson) && responseJson.length > 0) {",
+									"    const randomIndex = Math.floor(Math.random() * responseJson.length);",
+									"    const randomObj = responseJson[randomIndex];",
+									"    if (randomObj && randomObj._id) {",
+									"        pm.environment.set(\"companyId\", randomObj._id);",
+									"    } else {",
+									"        pm.environment.unset(\"companyId\");",
+									"        pm.test(\"Falha ao salvar companyId: objeto aleatório sem _id\", function () {",
+									"            pm.expect.fail(\"Não foi possível salvar o companyId: objeto aleatório sem _id.\");",
+									"        });",
+									"    }",
+									"} else {",
+									"    pm.environment.unset(\"companyId\");",
+									"    pm.test(\"Falha ao salvar companyId: resposta vazia\", function () {",
+									"        pm.expect.fail(\"Não foi possível salvar o companyId: resposta vazia.\");",
+									"    });",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/company",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_company_id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// === Função para gerar nome corporativo ===\r",
+									"function generateCorporateName() {\r",
+									"    const prefixes = [\"Tech\", \"Global\", \"Prime\", \"Next\", \"Blue\", \"Green\", \"Data\", \"Smart\", \"Digital\", \"Nova\"];\r",
+									"    const middles = [\"Corp\", \"Systems\", \"Solutions\", \"Group\", \"Enterprises\", \"Networks\", \"Holdings\", \"Industries\"];\r",
+									"    const suffixes = [\"Ltd\", \"SA\", \"Inc\", \"LLC\", \"Co\", \"Brasil\", \"Tech\", \"Pro\"];\r",
+									"\r",
+									"    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];\r",
+									"    const middle = middles[Math.floor(Math.random() * middles.length)];\r",
+									"    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];\r",
+									"\r",
+									"    return `${prefix} ${middle} ${suffix}`;\r",
+									"}\r",
+									"\r",
+									"// === Função para gerar CNPJ válido ===\r",
+									"function generateCNPJ() {\r",
+									"    const n = 9;\r",
+									"    const n1 = Math.floor(Math.random() * n);\r",
+									"    const n2 = Math.floor(Math.random() * n);\r",
+									"    const n3 = Math.floor(Math.random() * n);\r",
+									"    const n4 = Math.floor(Math.random() * n);\r",
+									"    const n5 = Math.floor(Math.random() * n);\r",
+									"    const n6 = Math.floor(Math.random() * n);\r",
+									"    const n7 = Math.floor(Math.random() * n);\r",
+									"    const n8 = Math.floor(Math.random() * n);\r",
+									"    const n9 = 0;\r",
+									"    const n10 = 0;\r",
+									"    const n11 = 0;\r",
+									"    const n12 = 1;\r",
+									"\r",
+									"    let d1 = n12 * 2 + n11 * 3 + n10 * 4 + n9 * 5 + n8 * 6 + n7 * 7 + n6 * 8 + n5 * 9 + n4 * 2 + n3 * 3 + n2 * 4 + n1 * 5;\r",
+									"    d1 = 11 - (d1 % 11);\r",
+									"    if (d1 >= 10) d1 = 0;\r",
+									"\r",
+									"    let d2 = d1 * 2 + n12 * 3 + n11 * 4 + n10 * 5 + n9 * 6 + n8 * 7 + n7 * 8 + n6 * 9 + n5 * 2 + n4 * 3 + n3 * 4 + n2 * 5 + n1 * 6;\r",
+									"    d2 = 11 - (d2 % 11);\r",
+									"    if (d2 >= 10) d2 = 0;\r",
+									"\r",
+									"    const cnpj = `${n1}${n2}${n3}${n4}${n5}${n6}${n7}${n8}${n9}${n10}${n11}${n12}${d1}${d2}`;\r",
+									"    return cnpj.replace(/^(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2}).*/, \"$1$2$3$4$5\");\r",
+									"}\r",
+									"\r",
+									"// ===== Helper: número aleatório inteiro =====\r",
+									"const rint = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;\r",
+									"\r",
+									"// ===== Nome da Razão Social (matriz) =====\r",
+									"function generateCorporateName() {\r",
+									"  const prefixes = [\"Tech\", \"Global\", \"Prime\", \"Next\", \"Blue\", \"Green\", \"Data\", \"Smart\", \"Digital\", \"Nova\"];\r",
+									"  const middles  = [\"Corp\", \"Systems\", \"Solutions\", \"Group\", \"Enterprises\", \"Networks\", \"Holdings\", \"Industries\"];\r",
+									"  const suffixes = [\"Brasil\", \"Services\", \"Technology\", \"Partners\", \"Logistics\", \"Consulting\"];\r",
+									"  const p = prefixes[rint(0, prefixes.length-1)];\r",
+									"  const m = middles[rint(0, middles.length-1)];\r",
+									"  const s = suffixes[rint(0, suffixes.length-1)];\r",
+									"  return `${p} ${m} ${s}`.replace(/\\s+/g, \" \").trim();\r",
+									"}\r",
+									"function generateRazaoSocial(base) {\r",
+									"  const tipos = [\" LTDA\", \" S.A.\", \" EIRELI\"];\r",
+									"  return base + tipos[rint(0, tipos.length-1)];\r",
+									"}\r",
+									"\r",
+									"// ===== Contato responsável (nome de pessoa) =====\r",
+									"function generateResponsibleContact() {\r",
+									"  const first = [\"Ana\", \"Bruno\", \"Carla\", \"Diego\", \"Eduarda\", \"Felipe\", \"Gabriela\", \"Henrique\", \"Isabela\", \"João\", \"Larissa\", \"Marcos\", \"Natalia\", \"Otávio\", \"Paula\", \"Rafael\", \"Sabrina\", \"Thiago\", \"Vitória\", \"Yasmin\"];\r",
+									"  const last  = [\"Almeida\", \"Barbosa\", \"Cardoso\", \"Duarte\", \"Esteves\", \"Fernandes\", \"Gomes\", \"Henrique\", \"Lima\", \"Macedo\", \"Nascimento\", \"Oliveira\", \"Pereira\", \"Queiroz\", \"Rocha\", \"Silva\", \"Souza\", \"Teixeira\", \"Vieira\", \"Xavier\"];\r",
+									"  return `${first[rint(0, first.length-1)]} ${last[rint(0, last.length-1)]}`;\r",
+									"}\r",
+									"\r",
+									"// ===== Telefone BR (formato padrão) =====\r",
+									"// Ex.: \"(85) 98765-4321\"\r",
+									"function generatePhoneBR() {\r",
+									"  const ddds = [\"11\",\"21\",\"31\",\"41\",\"51\",\"61\",\"71\",\"79\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"91\",\"92\",\"95\",\"96\",\"98\",\"99\"];\r",
+									"  const ddd = ddds[rint(0, ddds.length-1)];\r",
+									"  const first = rint(90000, 99999);  // inicia com 9\r",
+									"  const last  = rint(0, 9999).toString().padStart(4, \"0\");\r",
+									"  return `${ddd}${first}${last}`;\r",
+									"}\r",
+									"\r",
+									"// ===== Descrição de serviço =====\r",
+									"function generateServiceDescription() {\r",
+									"  const pool = [\r",
+									"    \"Prestação de serviços de desenvolvimento de software e manutenção de sistemas.\",\r",
+									"    \"Consultoria em tecnologia da informação, integração de APIs e suporte técnico.\",\r",
+									"    \"Serviços de infraestrutura em nuvem, monitoramento e segurança da informação.\",\r",
+									"    \"Soluções de automação de processos, testes de qualidade (QA) e treinamento.\",\r",
+									"    \"Serviços de marketing digital, análise de dados e business intelligence.\"\r",
+									"  ];\r",
+									"  return pool[rint(0, pool.length-1)];\r",
+									"}\r",
+									"\r",
+									"// ===== Execução =====\r",
+									"const baseName = generateCorporateName();\r",
+									"const matriz = generateRazaoSocial(baseName);\r",
+									"const responsibleContact = generateResponsibleContact();\r",
+									"const telephone = generatePhoneBR();\r",
+									"const serviceDescription = generateServiceDescription();\r",
+									"\r",
+									"\r",
+									"// ===== Salva nas variáveis do AMBIENTE (ou troque para collection/global se preferir) =====\r",
+									"pm.environment.set(\"matriz\", matriz);\r",
+									"pm.environment.set(\"responsibleContact\", responsibleContact);\r",
+									"pm.environment.set(\"telephone\", telephone);\r",
+									"pm.environment.set(\"serviceDescription\", serviceDescription);\r",
+									"\r",
+									"\r",
+									"\r",
+									"// ===== Log rápido =====\r",
+									"console.log({\r",
+									"  matriz, responsibleContact, telephone, serviceDescription\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// === Gera nome, CNPJ e e-mail ===\r",
+									"const corporateName = generateCorporateName();\r",
+									"const registerCompany = generateCNPJ();\r",
+									"const emailDomain = corporateName.toLowerCase().replace(/\\s+/g, '').replace(/[^a-z0-9]/g, '');\r",
+									"const mailCompany = `contact@${emailDomain}.com`;\r",
+									"\r",
+									"// === Salva nas variáveis do ambiente ===\r",
+									"pm.environment.set(\"corporateName\", corporateName);\r",
+									"// pm.environment.set(\"registerCompany\", registerCompany);\r",
+									"pm.environment.set(\"mailCompany\", mailCompany);\r",
+									"\r",
+									"// === Exibe no console ===\r",
+									"console.log(\"Generated Corporate Name:\", corporateName);\r",
+									"console.log(\"Generated CNPJ:\", registerCompany);\r",
+									"console.log(\"Generated Company Email:\", mailCompany);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Validar status 200', function (){",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test(\"Valida todos os campos, tipos e regras de negócio do corpo da resposta de update_company_id\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.have.property(\"msg\").that.is.a(\"string\");",
+									"    pm.expect(json).to.have.property(\"updatedCompany\");",
+									"    var company = json.updatedCompany;",
+									"",
+									"    // Helper para checar se string é alfanumérica (com espaços e acentos)",
+									"    function isAlphaNumeric(str) {",
+									"        return /^[\\p{L}\\p{N} .,'-]+$/u.test(str);",
+									"    }",
+									"    // Helper para checar se string contém apenas letras (com espaços e acentos)",
+									"    function isAlpha(str) {",
+									"        return /^[\\p{L} ]+$/u.test(str);",
+									"    }",
+									"    // Helper para checar e-mail",
+									"    function isValidEmail(str) {",
+									"        return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(str);",
+									"    }",
+									"    // Helper para checar CNPJ (somente números e máscara)",
+									"    function isCNPJ(str) {",
+									"        return /^\\d{2}\\d{3}\\d{3}\\d{4}\\d{2}$/.test(str);",
+									"    }",
+									"    // Helper para checar telefone BR",
+									"    function isBRPhone(str) {",
+									"        return /^\\d{3}-\\d{3}-\\d{5}-\\d{4}$/.test(str);",
+									"    }",
+									"",
+									"    // corporateName",
+									"    pm.expect(company).to.have.property(\"corporateName\");",
+									"    pm.expect(company.corporateName, \"corporateName obrigatório\").to.exist.and.to.be.a(\"string\").and.not.empty;",
+									"    pm.expect(company.corporateName.length, \"corporateName máximo 100 caracteres\").to.be.at.most(100);",
+									"    pm.expect(isAlphaNumeric(company.corporateName), \"corporateName deve ser alfanumérico\").to.be.true;",
+									"",
+									"    // registerCompany (CNPJ)",
+									"    pm.expect(company).to.have.property(\"registerCompany\");",
+									"    pm.expect(company.registerCompany, \"registerCompany obrigatório\").to.exist.and.to.be.a(\"string\").and.not.empty;",
+									"    pm.expect(company.registerCompany.replace(/\\D/g, \"\").length, \"registerCompany deve conter apenas números\").to.eql(14);",
+									"    pm.expect(isCNPJ(company.registerCompany), \"registerCompany deve seguir a máscara ##.###.###/####-##\").to.be.true;",
+									"",
+									"    // matriz",
+									"    pm.expect(company).to.have.property(\"matriz\");",
+									"    pm.expect(company.matriz, \"matriz obrigatório\").to.exist.and.to.be.a(\"string\").and.not.empty;",
+									"    pm.expect(isAlphaNumeric(company.matriz), \"matriz deve ser alfanumérico\").to.be.true;",
+									"",
+									"    // responsibleContact",
+									"    pm.expect(company).to.have.property(\"responsibleContact\");",
+									"    pm.expect(company.responsibleContact, \"responsibleContact obrigatório\").to.exist.and.to.be.a(\"string\").and.not.empty;",
+									"    pm.expect(company.responsibleContact.length, \"responsibleContact máximo 100 caracteres\").to.be.at.most(100);",
+									"    pm.expect(isAlpha(company.responsibleContact), \"responsibleContact deve conter apenas letras\").to.be.true;",
+									"    pm.expect(company.responsibleContact.trim().split(/\\s+/).length, \"responsibleContact deve conter pelo menos duas palavras\").to.be.at.least(2);",
+									"",
+									"    // telephone",
+									"    pm.expect(company).to.have.property(\"telephone\");",
+									"    pm.expect(company.telephone, \"telephone obrigatório\").to.exist.and.to.be.a(\"string\").and.not.empty;",
+									"    pm.expect(company.telephone.replace(/\\D/g, \"\").length, \"telephone deve conter apenas números\").to.be.at.least(10);",
+									"    var isBRPattern = isBRPhone(company.telephone);",
+									"    var isOnlyNumbers = /^\\d+$/.test(company.telephone);",
+									"    var isLengthValid = (company.telephone.length <= 15) || (company.telephone.length <= 20 && company.telephone.startsWith(\"+\"));",
+									"    pm.expect(",
+									"        isBRPattern || (isOnlyNumbers && isLengthValid),",
+									"        \"telephone deve seguir o padrão brasileiro (###############) ou ser internacional (até 20 caracteres)\"",
+									"    ).to.be.true;",
+									"",
+									"    // mail",
+									"    pm.expect(company).to.have.property(\"mail\");",
+									"    pm.expect(company.mail, \"mail obrigatório\").to.exist.and.to.be.a(\"string\").and.not.empty;",
+									"    pm.expect(isValidEmail(company.mail), \"mail deve ser um e-mail válido\").to.be.true;",
+									"",
+									"    // serviceDescription",
+									"    pm.expect(company).to.have.property(\"serviceDescription\");",
+									"    pm.expect(company.serviceDescription, \"serviceDescription obrigatório\").to.exist.and.to.be.a(\"string\").and.not.empty;",
+									"    pm.expect(isAlphaNumeric(company.serviceDescription), \"serviceDescription deve ser alfanumérico\").to.be.true;",
+									"",
+									"    // Unicidade no contexto da resposta (não pode haver duplicidade entre corporateName, matriz, registerCompany)",
+									"    var uniqueFields = [company.corporateName, company.matriz, company.registerCompany];",
+									"    var uniqueSet = new Set(uniqueFields);",
+									"    pm.expect(uniqueSet.size, \"corporateName, matriz e registerCompany devem ser únicos entre si\").to.eql(uniqueFields.length);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"corporateName\": \"{{corporateName}}\",\r\n  \"registerCompany\": \"{{registerCompany}}\",\r\n  \"mail\": \"{{mailCompany}}\",\r\n  \"matriz\": \"{{matriz}}\",\r\n  \"responsibleContact\": \"{{responsibleContact}}\",\r\n  \"telephone\": \"{{telephone}}\",\r\n  \"serviceDescription\": \"{{serviceDescription}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/company/{{companyId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"company",
+								"{{companyId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{tokenAdmin}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
