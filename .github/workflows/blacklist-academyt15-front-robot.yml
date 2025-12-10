@@ -47,7 +47,7 @@ jobs:
 
       - name: Check Test Results
         run: |
-          cd blacklist-academyt15-robot/results
+          cd blacklist-academyt15-robot/blacklist-academyt15-front-robot/results
           if grep -q "FAIL" output.xml; then
             echo "❌ Testes falharam!"
             exit 1
