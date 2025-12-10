@@ -20,9 +20,10 @@
 #modo headless
 
 *** Settings ***
+Library    SeleniumLibrary
 Library    OperatingSystem
 Resource    ../config/dev.robot
-Library    SeleniumLibrary
+Resource    generate_random_data.resource
 
 *** Keywords ***
 Abrir Navegador
@@ -32,6 +33,9 @@ Abrir Navegador
 
     
 Abrir Navegador Intereface
+    Log To Console    \n--- DEBUG ---
+    Log To Console    A URL que o robo vai abrir eh: "${BASE_URL_UI}"
+    Log To Console    --- FIM DEBUG ---
     Open Browser    ${BASE_URL_UI}    Chrome
     Maximize Browser Window
 
