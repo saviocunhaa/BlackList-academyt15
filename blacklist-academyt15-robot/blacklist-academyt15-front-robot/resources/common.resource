@@ -44,7 +44,7 @@ Abrir Navegador Headless
     Call Method    ${options}    add_argument    headless
     Call Method    ${options}    add_argument    no-sandbox
     Call Method    ${options}    add_argument    disable-dev-shm-usage
-    Open Browser    $(Ba${BASE_URL_UI}    chrome    options=${options}
+    Open Browser    ${BASE_URL_UI}    chrome    options=${options}
 
 Fechar Navegador
     Close Browser
