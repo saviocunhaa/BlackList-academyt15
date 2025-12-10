@@ -1,0 +1,61 @@
+nome: Robot Framework Test Fronted
+
+on:
+  pull_reuqest:
+    branches:
+      - main
+    paths:
+      - 'academyt15-frontend/blacklist-academyt15-front-robot' 
+
+jobs:
+  robot-framework-test-frontend:
+    name: Run Robot Framework Tests on Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Robot Framework and Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install robotframework
+          pip install robotframework-seleniumlibrary
+          pip install selenium
+          pip install webdriver-manager
+          pip install robotframework-requests
+          pip intall robotframework-faker
+
+      - name: setup Chrome and ChromeDriver
+        run: |
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome-stable_current_amd64.deb
+          sudo apt --fix-broken install
+          google-chrome --version
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          wget https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          chromedriver --version
+      - name: Run Robot Framework Tests
+        env:
+          CI: true
+        run: |
+          cd blacklist-academyt15-front-robot
+          robot --outputdir results tests/login/
+        continue-on-error: false
+
+      - name: check Test Results
+        run: |
+          cd blacklist-academyt15-front-robot/results
+          if grep -q "FAIL" output.xml; then
+            echo "❌ Testes Falharam"
+            exit 1
+          else
+            echo "✅ Todos os Testes Pasassaram"
+          fi
