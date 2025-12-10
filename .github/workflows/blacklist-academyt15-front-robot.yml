@@ -25,32 +25,21 @@ jobs:
           pip install robotframework-seleniumlibrary
           pip install robotframework-requests
           pip install robotframework-faker
-          pip install webdriver-manager
-      - name: Setup Chrome and ChromeDriver
-        run: |
-          # Usar o Chrome já instalado no Ubuntu
-          google-chrome --version
-          # Instalar ChromeDriver compatível
-          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
-          wget -q https://storage.googleapis.com/chrome-for-testing-public/$(curl -s https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_${CHROME_VERSION})/linux64/chromedriver-linux64.zip
-          unzip -q chromedriver-linux64.zip
-          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
-          chromedriver --version
+          # O webdriver-manager ou o próprio SeleniumLibrary cuidam do driver agora
+
       - name: Run Robot Framework Tests
         env:
           CI: true
         run: |
           cd blacklist-academyt15-robot/blacklist-academyt15-front-robot/
-          robot --outputdir results tests/Usuario/
+          # A flag --console colors ajuda a ver o log colorido no github actions
+          robot --console colors --outputdir results tests/login/
         continue-on-error: false
 
-      - name: Check Test Results
-        run: |
-          cd blacklist-academyt15-robot/results
-          if grep -q "FAIL" output.xml; then
-            echo "❌ Testes falharam!"
-            exit 1
-          else
-            echo "✅ Todos os testes passaram!"
-          fi
+      - name: Upload Test Results
+        # Passo extra: Salva os relatórios (html/xml) para você baixar no GitHub
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-results
+          path: blacklist-academyt15-robot/blacklist-academyt15-front-robot/results/
