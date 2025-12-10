@@ -10,7 +10,7 @@ Suite Teardown    Fechar Navegador
 
 *** Test Cases ***
 Cenario 01: Cadastrar novo Centro de Custo
-    [Documentation]    Realizar Cadastro do Centro de Custos
+    [Documentation]    Realizar Cadastro do Centro de Custos ok
     
     Realizar Login
     Verificar Redirecionamento Para Home
