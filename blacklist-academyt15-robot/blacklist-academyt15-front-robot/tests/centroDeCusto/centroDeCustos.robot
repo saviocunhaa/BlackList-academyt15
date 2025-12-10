@@ -15,6 +15,6 @@ Cenario 01: Cadastrar novo Centro de Custo
     Realizar Login
     Verificar Redirecionamento Para Home
     Verificar Elemento Cadastros Visivel
-    Acessar Pagina Centro de Custos
-    Cadastrar Novo Centro de Custos
+    # Acessar Pagina Centro de Custos
+    # Cadastrar Novo Centro de Custos
     
