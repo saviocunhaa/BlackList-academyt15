@@ -41,13 +41,13 @@ jobs:
         env:
           CI: true
         run: |
-          cd robot-framework-testes-frontend
+          cd blacklist-academyt15-robot/blacklist-academyt15-front-robot/
           robot --outputdir results tests/login/
         continue-on-error: false
 
       - name: Check Test Results
         run: |
-          cd robot-framework-testes-frontend/results
+          cd blacklist-academyt15-robot/results
           if grep -q "FAIL" output.xml; then
             echo "❌ Testes falharam!"
             exit 1
