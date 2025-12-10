@@ -1,7 +1,7 @@
 nome: Robot Framework Test Fronted
 
 on:
-  pull_reuqest:
+  pull_request:
     branches:
       - main
     paths:
