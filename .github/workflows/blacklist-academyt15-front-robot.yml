@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'academyt15-frontend/blacklist-academyt15-front-robot' 
+      - 'academyt15-frontend/**' 
 
 jobs:
   robot-framework-test-frontend:
