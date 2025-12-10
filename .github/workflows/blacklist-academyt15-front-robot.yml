@@ -1,19 +1,16 @@
-nome: Robot Framework Test Fronted
+name: Robot Framework Tests Frontend
 
 on:
   pull_request:
     branches:
       - main
-    # paths:
-    #   - 'academyt15-frontend/**' 
 
 jobs:
-  robot-framework-test-frontend:
-    name: Run Robot Framework Tests on Frontend
+  robot-framework-testes-frontend:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -21,41 +18,39 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Robot Framework and Dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install robotframework
           pip install robotframework-seleniumlibrary
-          pip install selenium
-          pip install webdriver-manager
           pip install robotframework-requests
-          pip intall robotframework-faker
-
-      - name: setup Chrome and ChromeDriver
+          pip install robotframework-faker
+          pip install webdriver-manager
+      - name: Setup Chrome and ChromeDriver
         run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb
-          sudo apt --fix-broken install
+          # Usar o Chrome já instalado no Ubuntu
           google-chrome --version
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          wget https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
+          # Instalar ChromeDriver compatível
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
+          wget -q https://storage.googleapis.com/chrome-for-testing-public/$(curl -s https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_${CHROME_VERSION})/linux64/chromedriver-linux64.zip
+          unzip -q chromedriver-linux64.zip
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
           chromedriver --version
       - name: Run Robot Framework Tests
         env:
           CI: true
         run: |
-          cd blacklist-academyt15-front-robot/blacklist-academyt15-front-robot
+          cd blacklist-academyt15-robot/blacklist-academyt15-front-robot/
           robot --outputdir results tests/login/
         continue-on-error: false
 
-      - name: check Test Results
+      - name: Check Test Results
         run: |
-          cd blacklist-academyt15-front-robot/results
+          cd blacklist-academyt15-robot/results
           if grep -q "FAIL" output.xml; then
-            echo "❌ Testes Falharam"
+            echo "❌ Testes falharam!"
             exit 1
           else
-            echo "✅ Todos os Testes Pasassaram"
+            echo "✅ Todos os testes passaram!"
           fi
