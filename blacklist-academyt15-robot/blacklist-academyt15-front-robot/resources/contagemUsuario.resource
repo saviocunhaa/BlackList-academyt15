@@ -69,7 +69,7 @@ Contar Usuarios Na Lista
         # Lógica de saída ou continuação
         IF    ${tem_proxima_pagina}
             Click Element    ${BTN_PROXIMO}
-            # Pequena pausa para garantir que a tabela comece a recarregar (evita contar a mesma página duas vezes rápido demais)
+            # Pequena pausa para garantir que  a tabela comece a recarregar (evita contar a mesma página duas vezes rápido demais)
             Sleep    3s 
         ELSE
             # Se o botão não estiver habilitado ou não existir, sai do loop

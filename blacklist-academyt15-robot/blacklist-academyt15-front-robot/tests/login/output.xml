@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3.2 (Python 3.13.3 on win32)" generated="2025-12-10T10:48:04.964302" rpa="false" schemaversion="5">
+<suite id="s1" name="Login" source="C:\Users\Sávio Cunha\Documents\QA\academy\blacklist_academy\blacklist-academyt15-robot\blacklist-academyt15-front-robot\tests\login\login.robot">
+<kw name="Abrir Navegador" owner="common" type="SETUP">
+<kw name="Get Environment Variable" owner="OperatingSystem">
+<msg time="2025-12-10T10:48:05.255802" level="INFO">${headless} = False</msg>
+<var>${headless}</var>
+<arg>CI</arg>
+<arg>default=False</arg>
+<doc>Returns the value of an environment variable with the given name.</doc>
+<status status="PASS" start="2025-12-10T10:48:05.255628" elapsed="0.000206"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Abrir Navegador Intereface" owner="common">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-12-10T10:48:05.256528" level="INFO">Opening browser 'Chrome' to base url 'https://blacklist.qacoders.dev.br'.</msg>
+<msg time="2025-12-10T10:48:05.631816" level="WARN">The chromedriver version (142.0.7444.175) detected in PATH at C:\chromedriver\chromedriver.exe might not be compatible with the detected chrome version (143.0.7499.41); currently, chromedriver 143.0.7499.40 is recommended for chrome 143.*, so it is advised to delete the driver in PATH and retry</msg>
+<arg>${BASE_URL_UI}</arg>
+<arg>Chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-12-10T10:48:05.256362" elapsed="4.545595"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-12-10T10:48:09.802131" elapsed="0.025823"/>
+</kw>
+<status status="PASS" start="2025-12-10T10:48:05.256198" elapsed="4.571858"/>
+</kw>
+<arg>'${headless}' == 'true'</arg>
+<arg>Abrir Navegador Headless</arg>
+<arg>ELSE</arg>
+<arg>Abrir Navegador Intereface</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2025-12-10T10:48:05.255957" elapsed="4.572147"/>
+</kw>
+<status status="PASS" start="2025-12-10T10:48:05.255059" elapsed="4.573104"/>
+</kw>
+<test id="s1-t1" name="Cenario 01: Realizar Login com Sucesso" line="9">
+<kw name="Realizar Login" owner="login">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:email</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-10T10:48:09.829139" elapsed="0.714344"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-12-10T10:48:10.544023" level="INFO">Typing text 'sysadmin@qacoders.com' into text field 'id:email'.</msg>
+<arg>id:email</arg>
+<arg>${FRONTEND_EMAIL}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-10T10:48:10.543707" elapsed="0.162275"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:password</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-10T10:48:10.706313" elapsed="0.019657"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-12-10T10:48:10.726323" level="INFO">Typing text '1234@Test' into text field 'id:password'.</msg>
+<arg>id:password</arg>
+<arg>${FRONTEND_PASSWORD}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-10T10:48:10.726125" elapsed="0.081293"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:login</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-10T10:48:10.807578" elapsed="0.016911"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-12-10T10:48:10.824808" level="INFO">Clicking button 'id:login'.</msg>
+<arg>id:login</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-12-10T10:48:10.824651" elapsed="0.083126"/>
+</kw>
+<status status="PASS" start="2025-12-10T10:48:09.828836" elapsed="1.079039"/>
+</kw>
+<kw name="Verificar Redirecionamento Para Home" owner="login">
+<kw name="Wait Until Location Is" owner="SeleniumLibrary">
+<arg>${BASE_URL_UI}/home</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the current URL is ``expected``.</doc>
+<status status="PASS" start="2025-12-10T10:48:10.908510" elapsed="1.448206"/>
+</kw>
+<kw name="Location Should Be" owner="SeleniumLibrary">
+<msg time="2025-12-10T10:48:12.363149" level="INFO">Current location is 'https://blacklist.qacoders.dev.br/home'.</msg>
+<arg>${BASE_URL_UI}/home</arg>
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<status status="PASS" start="2025-12-10T10:48:12.356986" elapsed="0.006277"/>
+</kw>
+<status status="PASS" start="2025-12-10T10:48:10.908256" elapsed="1.455097"/>
+</kw>
+<kw name="Verificar Elemento Cadastros Visivel" owner="login">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>id:Cadastros</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-12-10T10:48:12.364039" elapsed="0.022117"/>
+</kw>
+<kw name="Element Text Should Be" owner="SeleniumLibrary">
+<msg time="2025-12-10T10:48:12.386783" level="INFO">Verifying element 'id:Cadastros' contains exact text 'Cadastros'.</msg>
+<arg>id:Cadastros</arg>
+<arg>Cadastros</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<status status="PASS" start="2025-12-10T10:48:12.386456" elapsed="0.023632"/>
+</kw>
+<status status="PASS" start="2025-12-10T10:48:12.363724" elapsed="0.046488"/>
+</kw>
+<status status="PASS" start="2025-12-10T10:48:09.828240" elapsed="2.582440"/>
+</test>
+<kw name="Fechar Navegador" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2025-12-10T10:48:12.412287" elapsed="2.206440"/>
+</kw>
+<status status="PASS" start="2025-12-10T10:48:12.411998" elapsed="2.206842"/>
+</kw>
+<status status="PASS" start="2025-12-10T10:48:04.965893" elapsed="9.652985"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Login" id="s1" pass="1" fail="0" skip="0">Login</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-12-10T10:48:05.631816" level="WARN">The chromedriver version (142.0.7444.175) detected in PATH at C:\chromedriver\chromedriver.exe might not be compatible with the detected chrome version (143.0.7499.41); currently, chromedriver 143.0.7499.40 is recommended for chrome 143.*, so it is advised to delete the driver in PATH and retry</msg>
+</errors>
+</robot>
