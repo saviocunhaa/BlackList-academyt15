@@ -42,7 +42,7 @@ jobs:
           CI: true
         run: |
           cd blacklist-academyt15-robot/blacklist-academyt15-front-robot/
-          robot --outputdir results tests/Usuario/
+          robot --outputdir results tests/login/
         continue-on-error: false
 
       - name: Check Test Results
