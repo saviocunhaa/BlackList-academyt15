@@ -1,9 +1,9 @@
 *** Settings ***
 
-Resource    ../resources/common.resource
-Resource    ../resources/login.resource
-Resource    ../resources/generate_random_data.resource
-Resource    ../resources/centroDeCustos.resource
+Resource    ../../resources/common.resource
+Resource    ../../resources/login.resource
+Resource    ../../resources/generate_random_data.resource
+Resource    ../../resources/centroDeCustos.resource
 
 Suite Setup       Abrir Navegador
 Suite Teardown    Fechar Navegador

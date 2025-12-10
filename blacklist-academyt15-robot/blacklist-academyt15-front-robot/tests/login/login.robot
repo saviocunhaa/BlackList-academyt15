@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    ../resources/login.resource
-Resource    ../resources/common.resource
+Resource    ../../resources/login.resource
+Resource    ../../resources/common.resource
 
 Suite Setup       Abrir Navegador
 Suite Teardown    Fechar Navegador
