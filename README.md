@@ -44,5 +44,3 @@ Certifique-se de ter o **Python** e o **Git** instalados. Em seguida, instale as
 pip install robotframework
 pip install robotframework-seleniumlibrary
 pip install robotframework-requests
-# Instale outras libs se necessário, ou use um requirements.txt:
-# pip install -r requirements.txt
