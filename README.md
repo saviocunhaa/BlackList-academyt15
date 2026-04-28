@@ -18,7 +18,7 @@ O projeto foi construído utilizando as seguintes ferramentas e bibliotecas:
 * **Robot Framework:** Framework principal para automação de testes.
     * *SeleniumLibrary:* Para automação de interface web (Front-end).
     * *RequestsLibrary:* Para automação de serviços REST (Back-end).
-* **Postman:** Criação de coleções e testes manuais/automatizados de API.
+* **Postman:** Criação de coleções e testes manuais/automatizados de API..
 * **Python:** Linguagem base para o Robot Framework.
 * **GitHub Actions:** Orquestração da integração contínua (CI), executando os testes automaticamente a cada push.
 * **Git & GitHub:** Controle de versão.
@@ -29,7 +29,7 @@ O projeto está organizado da seguinte forma:
 
 - `📂 tests/`
     - `📂 ui/`: Cenários de teste automatizados para Interface (Web).
-    - `📂 api/`: Cenários de teste automatizados para API (Robot + Postman).
+    - `📂 api/`: Cenários de teste automatizados para API (Robot + Postman)..
 - `📂 resources/`: Keywords, variáveis e Page Objects utilizados no Robot.
 - `📂 docs/`: Artefatos de testes manuais (Planos de Teste, Casos de Teste e Report de Bugs).
 - `📜 .github/workflows/`: Arquivos YAML de configuração do GitHub Actions.
